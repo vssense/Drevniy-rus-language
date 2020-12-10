@@ -1,0 +1,7 @@
+double main()
+{
+    double value = 0;
+
+    value = 5;
+    return 0;
+}
