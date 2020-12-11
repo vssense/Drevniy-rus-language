@@ -2,6 +2,21 @@
 
 const char* SKIP_SYMBOLS = " \n\t\r";
 
+Parser* Parse            (const char* input);
+size_t  LenOfFile        (FILE* file);
+Buffer* ReadFile         (FILE* file);
+size_t  FillTokens       (Token* tokens, Buffer* buffer);
+Token*  NewTokensBuffer  ();
+void    PrintError       (ERROR error);
+void    PrintBeforeSymbol(char* str, char symbol);
+void    CompilationError (Parser* parser, size_t* idx);
+void    GetNumber        (Token* tokens, size_t* ofs, Buffer* buffer);
+void    GetName          (Token* tokens, size_t* ofs, Buffer* buffer);
+void    GetTokens        (Token* tokens, size_t* ofs, Buffer* buffer);
+void    Delete           (Buffer* buffer);
+void    ParserDump       (Parser* parser);
+
+
 size_t LenOfFile(FILE* file)
 {
     assert(file);
@@ -132,17 +147,21 @@ void CompilationError(Parser* parser, size_t* idx)
     printf("^\n");
 }
 
+#define SYMBOL *buffer->str
+#define TYPE    tokens[*ofs].type
+#define VALUE   tokens[*ofs].value
+#define STR     tokens[*ofs].token_str
+
 void IgnoreSpaces(Buffer* buffer)
 {
     assert(buffer);
 
     buffer->str += strspn(buffer->str, SKIP_SYMBOLS);
+    if (SYMBOL == '~')
+    {
+        buffer->str += strcspn(buffer->str, "\n"); 
+    }
 }
-
-#define SYMBOL *buffer->str
-#define TYPE  tokens[*ofs].type
-#define VALUE tokens[*ofs].value
-#define STR   tokens[*ofs].token_str
 
 void GetNumber(Token* tokens, size_t* ofs, Buffer* buffer)
 {
@@ -176,7 +195,7 @@ void GetName(Token* tokens, size_t* ofs, Buffer* buffer)
     int len = 0;
 
     VALUE.name = (char*)calloc(MAX_NAME_LEN, sizeof(char));
-    sscanf(buffer->str, "%[A-Za-z0-9_]%lln", VALUE.name, &len);
+    sscanf(buffer->str, "%[A-Za-z0-9_]%n", VALUE.name, &len);
 
     TYPE = TYPE_ID;
     STR = buffer->str;

@@ -11,8 +11,8 @@ static const size_t MAX_NAME_LEN = 32;
 
 enum OperatorType
 {
-    LOOP,
     DECLARATOR,
+    LOOP,
     RET,
     IF,
     ELSE,
@@ -27,14 +27,12 @@ enum OperatorType
     ABOVE,
     BELOW,
     NEQUAL,
-    COMMA,
-    SQRBR1,
-    SQRBR2,
     BRACE1,
     BRACE2,
     RNDBR1,
     RNDBR2,
     SMCLN,
+    COMMA,
 
     NUM_OPERATORS
 };
@@ -47,8 +45,8 @@ struct Operator
 
 static const Operator OPERATORS[]
 {
-    { "while" ,  5 },
     { "double",  6 },
+    { "while" ,  5 },
     { "return",  6 },
     { "if"    ,  2 },
     { "else"  ,  4 },
@@ -63,14 +61,12 @@ static const Operator OPERATORS[]
     { "<"     ,  1 },
     { ">"     ,  1 },
     { "!="    ,  2 },
-    { ","     ,  1 },
-    { "["     ,  1 },
-    { "]"     ,  1 },
     { "{"     ,  1 },
     { "}"     ,  1 },
     { "("     ,  1 },
     { ")"     ,  1 },
-    { ";"     ,  1 }
+    { ";"     ,  1 },
+    { ","     ,  1 }
 };
 
 enum TokenType
@@ -128,3 +124,5 @@ struct Parser
 Parser* Parse           (const char* input);
 void    ParserDump      (Parser* parser);
 void    CompilationError(Parser* parser, size_t* idx);
+Buffer* GetBuffer       (const char* input);
+void    IgnoreSpaces    (Buffer* buffer);
