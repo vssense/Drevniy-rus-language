@@ -1,5 +1,7 @@
 #include "..//tree//tree.h"
 
+static const char* ASM_FILE_NAME = "asm_tmp.txt";
+
 struct Function
 {
     const char* name;
@@ -19,3 +21,4 @@ struct NameTable
 
 NameTable* MakeTableOfNames(Tree* tree);
 void       DumpNameTable   (NameTable* table);
+void       Assemble        (Tree* tree);

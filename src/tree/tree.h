@@ -7,7 +7,7 @@ enum NodeType
     ID_TYPE,      // variable or function             |   name of func or var    
     ARG_TYPE,     // bunch of arguments               |   args
 
-    COMP_TYPE,    // {                                |   {
+    COMP_TYPE,    // {                                |   comp
     STAT_TYPE,    // ';' or loop/condition            |   S
 
     COND_TYPE,    // condition                        |   if
@@ -22,6 +22,21 @@ enum NodeType
     NUMB_TYPE,    // double                           |   *value of number*
 
     TYPES_COUNT   // We will add scan, print, round   |   p.s. Fictive nodes's values == 0
+};
+
+enum MathOp
+{
+    ADD_OP,
+    SUB_OP,
+    MUL_OP,
+    DIV_OP,
+
+    EQUAL_OP,
+    NOT_EQUAL_OP,
+    LESS_OP,
+    GREATER_OP,
+    LESS_EQUAL_OP,
+    GREATER_EQUAL_OP
 };
 
 struct Node

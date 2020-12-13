@@ -1,14 +1,60 @@
 #include "compiling.h"
 
-size_t     GetNumFunc   (Tree* tree);
-NameTable* NewNameTable ();
-void       FillNameTable(NameTable* table, Tree* tree);
-void       GetFunction  (Node* subtree, Function* function);
-size_t     GetNumArgs   (Node* node);
-size_t     GetNumVars   (Node* node);
-void       GetNames     (char** vars, Node* subtree);
-void       GetNewVars   (Node* node, char** vars, size_t* ofs);
+/////////////////////////////////////////////////////////////////
+//// NameTable
+/////////////////////////////////////////////////////////////////
+NameTable* MakeTableOfNames(Tree* tree);
+size_t     GetNumFunc      (Tree* tree);
+NameTable* NewNameTable    ();
+void       FillNameTable   (NameTable* table, Tree* tree);
+void       GetFunction     (Node* subtree, Function* function);
+size_t     GetNumArgs      (Node* node);
+size_t     GetNumVars      (Node* node);
+void       GetNames        (char** vars, Node* subtree);
+void       GetNewVars      (Node* node, char** vars, size_t* ofs);
+void       DumpNameTable   (NameTable* table);
 
+/////////////////////////////////////////////////////////////////
+///// Assemble
+/////////////////////////////////////////////////////////////////
+void WriteAsmCode(Tree* tree, NameTable* table, FILE* file);
+
+
+void Assemble(Tree* tree)
+{
+    assert(tree);
+
+    NameTable* table = MakeTableOfNames(tree);
+
+    FILE* asm_file = fopen(ASM_FILE_NAME, "w");
+    assert(asm_file);
+
+    WriteAsmCode(tree, table, asm_file);
+ 
+    fclose(asm_file);
+}
+
+void WriteAsmCode(Tree* tree, NameTable* table, FILE* file)
+{
+    assert(tree);
+    assert(file);
+
+    Node* node = tree->root;
+
+//     for (size_t i = 0; i < table->num_func; ++i)
+//     {
+//         WriteAsmFunc(node->right, table, file);
+
+//         node = node->left;
+//     }
+// }
+
+// void WriteAsmFunc(Node* node, NameTable* table, FILE* file)
+// {
+//     assert(node);
+//     assert(table);
+//     assert(file);
+}
 
 NameTable* MakeTableOfNames(Tree* tree)
 {

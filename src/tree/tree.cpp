@@ -26,12 +26,14 @@ void  CheckClosingBracked (Parser* parser, size_t* ofs);
 void  CheckSemicolon      (Parser* parser, size_t* ofs);
 void  CheckAssigment      (Parser* parser, size_t* ofs);
 bool  IsComparison        (Parser* parser, size_t* ofs);
+int   MathTokenToNode     (int op);
 
 Tree* NewTree      ();
 Node* NewNode      ();
 Node* ConstructNode(NodeType type, Value value, Node* left, Node* right);
 Node* ConstructNode(NodeType type, Node* left, Node* right);
 Node* ConstructNode(NodeType type, Value value);
+Node* ConstructNode(NodeType type);
 
 ///////////////////////////////////////////////////////
 // Work with file
@@ -72,6 +74,11 @@ Node* ConstructNode(NodeType type, Value value, Node* left, Node* right)
     node->left  = left;
     node->right = right;
 
+    if (type == MATH_TYPE)
+    {
+        node->value.op = MathTokenToNode(value.op);
+    }
+
     if (left != nullptr)
     {
         left->parent = node;
@@ -92,8 +99,14 @@ Node* ConstructNode(NodeType type, Node* left, Node* right)
 
 Node* ConstructNode(NodeType type, Value value)
 {
-    ConstructNode(type, value, nullptr, nullptr);
+    return ConstructNode(type, value, nullptr, nullptr);
 }
+
+Node* ConstructNode(NodeType type)
+{
+    return ConstructNode(type, { .op = 0 }, nullptr, nullptr);
+}
+
 
 
 #define TYPE       parser->tokens[*ofs].type
@@ -187,12 +200,12 @@ Node* GetCompound(Parser* parser, size_t* ofs)
 
     CheckOpeningBrace(parser, ofs);
 
-    Node* result = ConstructNode(COMP_TYPE, { .op = BRACE1 });
+    Node* result = ConstructNode(COMP_TYPE);
     Node* last = result;
 
     while (TYPE != TYPE_OP || VALUE.op != BRACE2)
     {
-        last->right = ConstructNode(STAT_TYPE, { .op = SMCLN }, GetStatement(parser, ofs), nullptr);
+        last->right = ConstructNode(STAT_TYPE, GetStatement(parser, ofs), nullptr);
         last->right->parent = last;
         last = last->right;
     }
@@ -210,7 +223,7 @@ Node* GetStatement(Parser* parser, size_t* ofs)
     {
         (*ofs)++;
         Node* tmp = GetAssignment(parser, ofs);
-        tmp->left->type = DECL_TYPE;
+        tmp->type = DECL_TYPE;
         CheckSemicolon(parser, ofs);
         return tmp;
     }
@@ -253,7 +266,7 @@ Node* GetAssignment(Parser* parser, size_t* ofs)
     Node* var = ID(nullptr, nullptr);
     (*ofs)++; /* to skip '=' */
 
-    return ConstructNode(ASSG_TYPE, { .op = ASSG }, var, GetExpression(parser, ofs));
+    return ConstructNode(ASSG_TYPE, var, GetExpression(parser, ofs));
 }
 
 Node* GetExpression(Parser* parser, size_t* ofs)
@@ -345,7 +358,7 @@ Node* GetJump(Parser* parser, size_t* ofs)
 
     (*ofs)++;
 
-    return ConstructNode(JUMP_TYPE, { .op = RET }, nullptr, GetExpression(parser, ofs));
+    return ConstructNode(JUMP_TYPE, nullptr, GetExpression(parser, ofs));
 }
 
 Node* GetParams(Parser* parser, size_t* ofs)
@@ -382,7 +395,7 @@ Node* GetLoop(Parser* parser, size_t* ofs)
     (*ofs)++;
 
     CheckOpeningBracked(parser, ofs);
-    Node* result = ConstructNode(LOOP_TYPE, { .op = LOOP }, GetExpression(parser, ofs), nullptr);
+    Node* result = ConstructNode(LOOP_TYPE, GetExpression(parser, ofs), nullptr);
     CheckClosingBracked(parser, ofs);
 
     result->right = GetCompound(parser, ofs);
@@ -654,3 +667,21 @@ void DeleteFictiveNodes(Node* node)
     }
 }
 
+int MathTokenToNode(int op)
+{
+    switch (op)
+    {
+        case PLUS   : { return ADD_OP          ; }
+        case MINUS  : { return SUB_OP          ; }
+        case MUL    : { return MUL_OP          ; }
+        case DIV    : { return DIV_OP          ; }
+        case NEQUAL : { return EQUAL_OP        ; }
+        case EQUAL  : { return NOT_EQUAL_OP    ; }
+        case BELOW  : { return LESS_OP         ; }
+        case ABOVE  : { return GREATER_OP      ; }
+        case EBELOW : { return LESS_EQUAL_OP   ; }
+        case EABOVE : { return GREATER_EQUAL_OP; }
+
+        default : return -1;
+    }
+}

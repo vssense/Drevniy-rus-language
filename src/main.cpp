@@ -12,15 +12,13 @@ int main(const int argc, const char* argv[])
 
     Tree* tree = GetTree(parser);
 
-    // WriteToFile(tree, FILE_TO_WRITE);
+    WriteToFile(tree, FILE_TO_WRITE);
 
-    // Tree* new_tree = GetFromFile(FILE_TO_WRITE);
+    Tree* new_tree = GetFromFile(FILE_TO_WRITE);
     
-    NameTable* table = MakeTableOfNames(tree);
-    DumpNameTable(table);
 
     TreeDump(tree);
-    // TreeDump(new_tree);
+    TreeDump(new_tree);
 
     return 0;
 }
