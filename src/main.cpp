@@ -1,4 +1,6 @@
-#include "tree\\tree.h"
+
+#include "compiling\\compiling.h"
+#include "C:\Users\vssen\Desktop\TX\TXLib.h"
 
 const char* FILE_TO_WRITE = "tree.txt";
 
@@ -14,6 +16,9 @@ int main(const int argc, const char* argv[])
 
     // Tree* new_tree = GetFromFile(FILE_TO_WRITE);
     
+    NameTable* table = MakeTableOfNames(tree);
+    DumpNameTable(table);
+
     TreeDump(tree);
     // TreeDump(new_tree);
 

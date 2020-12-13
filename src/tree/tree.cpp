@@ -353,15 +353,14 @@ Node* GetParams(Parser* parser, size_t* ofs)
     if (TYPE != TYPE_OP || VALUE.op != RNDBR2)
     {
         result = ConstructNode(ARG_TYPE, GetExpression(parser, ofs), nullptr);
-        Node* last = result;
 
         while (TYPE == TYPE_OP && VALUE.op == COMMA)
         {
             (*ofs)++;
 
-            last->right = ConstructNode(ARG_TYPE, GetExpression(parser, ofs), nullptr);
-            last->right->parent = last;
-            last = last->right;
+            result->parent = ConstructNode(ARG_TYPE, GetExpression(parser, ofs), nullptr);
+            result->parent->right = result;
+            result = result->parent;
         }
     }
 
@@ -583,20 +582,19 @@ void GetTreeFromBuffer(Node* node, Buffer* buffer)
                 node = node->right;
             }
 
-            buffer->str++;   
+            buffer->str++;
             continue;
         }
 
         if (*buffer->str == '}')
         {
-            if (node->parent == nullptr) printf("We found root\n");
             node = node->parent;
             buffer->str++;
             continue;
         }
 
         int len = 0;
-        sscanf(buffer->str, "%d %*c %n", (int*)&node->type, &len);
+        sscanf(buffer->str, "%d %*c %n", &node->type, &len);
         buffer->str += len;
 
         if (node->type == NUMB_TYPE)
@@ -642,9 +640,11 @@ void DeleteFictiveNodes(Node* node)
         {
             DeleteFictiveNodes(node->left);
         }
+
         if (node->right != nullptr)
         {
             DeleteFictiveNodes(node->right);
         }
     }
 }
+

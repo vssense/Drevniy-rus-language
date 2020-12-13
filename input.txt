@@ -20,7 +20,7 @@ double main()
         x = 5;
     }
 
-    double z = sum(x, y + 3 * 2);
+    double z = sum(x, y + 3 * 3, 12 + 4, 33);
 
     while (z > 0)
     {
