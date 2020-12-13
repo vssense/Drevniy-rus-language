@@ -1,6 +1,6 @@
-
 #include "compiling\\compiling.h"
-#include "C:\Users\vssen\Desktop\TX\TXLib.h"
+
+// #include "C:\Users\vssen\Desktop\TX\TXLib.h"
 
 const char* FILE_TO_WRITE = "tree.txt";
 

@@ -31,6 +31,7 @@ Tree* NewTree      ();
 Node* NewNode      ();
 Node* ConstructNode(NodeType type, Value value, Node* left, Node* right);
 Node* ConstructNode(NodeType type, Node* left, Node* right);
+Node* ConstructNode(NodeType type, Value value);
 
 ///////////////////////////////////////////////////////
 // Work with file
@@ -87,6 +88,11 @@ Node* ConstructNode(NodeType type, Value value, Node* left, Node* right)
 Node* ConstructNode(NodeType type, Node* left, Node* right)
 {
     return ConstructNode(type, { .op = 0 }, left, right);
+}
+
+Node* ConstructNode(NodeType type, Value value)
+{
+    ConstructNode(type, value, nullptr, nullptr);
 }
 
 
@@ -181,7 +187,7 @@ Node* GetCompound(Parser* parser, size_t* ofs)
 
     CheckOpeningBrace(parser, ofs);
 
-    Node* result = ConstructNode(COMP_TYPE, { .op = BRACE1 }, nullptr, nullptr);
+    Node* result = ConstructNode(COMP_TYPE, { .op = BRACE1 });
     Node* last = result;
 
     while (TYPE != TYPE_OP || VALUE.op != BRACE2)
@@ -330,7 +336,7 @@ Node* GetPrimaryExpression(Parser* parser, size_t* ofs)
     double val = VALUE.number;
     (*ofs)++;
 
-    return ConstructNode(NUMB_TYPE, { .number = val }, nullptr, nullptr);
+    return ConstructNode(NUMB_TYPE, { .number = val });
 }
 
 Node* GetJump(Parser* parser, size_t* ofs)
@@ -548,7 +554,7 @@ Tree* GetFromFile(const char* file)
     Tree* tree = NewTree();
 
 
-    tree->root = ConstructNode(D_TYPE, nullptr, nullptr);
+    tree->root = ConstructNode(D_TYPE, { .op = 0 });
     buffer->str += 5;
 
     GetTreeFromBuffer(tree->root, buffer);
