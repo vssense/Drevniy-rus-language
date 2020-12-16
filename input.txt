@@ -1,45 +1,19 @@
-double main()
-{
-    double x = 5;
-    double y = 1;
+возьмем main()
+начнем
+    возьмем a зомбируем ноль;
+    a зомбируем nepravdoi();
+    govoru(Fact(a));
+    положим ноль;
+закончим
 
-    if (y >= 1)
-    {
-        if (x < 5)
-        {
-            y = 2;
-            y = y + 2.5;
-        }
-        else
-        {
-            x = 2;
-        }
-    }
-    else 
-    {
-        x = 5;
-    }
-
-    double z = sum(x, y + 3 * 3, 12 + 4, 33);
-
-    while (z > 0)
-    {
-        z = z + 1;
-    }
-
-    double nikita = 3;
-
-    z = IsGay(nikita);
-
-    return 0;
-}
-
-double sum(a, b)
-{
-    return a + b;
-}
-
-double IsGay(nikitos)
-{
-    return 1;
-}
+возьмем Fact(a)
+начнем
+    в_случае (a < полушка) 
+    начнем
+        положим целковый;
+    закончим
+    иначе
+    начнем
+	положим a * Fact(a - целковый);
+    закончим
+закончим

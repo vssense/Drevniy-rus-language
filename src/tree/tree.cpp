@@ -43,6 +43,7 @@ void GetTreeFromBuffer     (Node* node, Buffer* buffer);
 void DeleteFictiveNodes    (Node* node);
 
 
+
 Tree* NewTree()
 {
     Tree* tmp = (Tree*)calloc(1, sizeof(Tree));
@@ -539,7 +540,7 @@ void WriteToFileRecursively(Node* node, FILE* file)
     {
         fprintf(file, "%lg ", node->value.number);
     }
-    else if (node->type == ID_TYPE || node->type == DECL_TYPE)
+    else if (node->type == ID_TYPE)
     {
         fprintf(file, "%s ", node->value.name);
     }
@@ -613,7 +614,7 @@ void GetTreeFromBuffer(Node* node, Buffer* buffer)
         }
 
         int len = 0;
-        sscanf(buffer->str, "%d %*c %n", &node->type, &len);
+        sscanf(buffer->str, "%d %*c %n", (int*)&node->type, &len);
         buffer->str += len;
 
         if (node->type == NUMB_TYPE)
@@ -675,13 +676,13 @@ int MathTokenToNode(int op)
         case MINUS  : { return SUB_OP          ; }
         case MUL    : { return MUL_OP          ; }
         case DIV    : { return DIV_OP          ; }
-        case NEQUAL : { return EQUAL_OP        ; }
-        case EQUAL  : { return NOT_EQUAL_OP    ; }
+        case NEQUAL : { return NOT_EQUAL_OP    ; }
+        case EQUAL  : { return EQUAL_OP        ; }
         case BELOW  : { return LESS_OP         ; }
         case ABOVE  : { return GREATER_OP      ; }
         case EBELOW : { return LESS_EQUAL_OP   ; }
         case EABOVE : { return GREATER_EQUAL_OP; }
 
-        default : return -1;
+        default     : { return op              ; }
     }
 }

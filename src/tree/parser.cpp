@@ -128,7 +128,9 @@ void CompilationError(Parser* parser, size_t* idx)
 
     PrintError(parser->status);
 
+
     char* str_start = parser->tokens[*idx].token_str;
+    printf("%s\n", str_start);
     
     while (str_start > parser->original_buffer && *str_start != '\n')
     {
@@ -178,13 +180,31 @@ void GetNumber(Token* tokens, size_t* ofs, Buffer* buffer)
 
 void GetName(Token* tokens, size_t* ofs, Buffer* buffer)
 {
+    assert(tokens);
+    assert(ofs);
+    assert(buffer);
+
+    for (int i = 0; i < NUM_DIGITS; ++i)
+    {
+        if (strncmp(buffer->str, DIGITS[i].digit, DIGITS[i].len) == 0)
+        {
+            VALUE.number = i;
+            TYPE         = TYPE_NUMB;
+            STR          = buffer->str;
+
+            buffer->str += DIGITS[i].len;
+            (*ofs)++;
+            return;
+        }
+    }
+
     for (int i = 0; i < NUM_OPERATORS; ++i)
     {
         if (strncmp(buffer->str, OPERATORS[i].name, OPERATORS[i].len) == 0)
         {
             VALUE.op = i;
-            TYPE = TYPE_OP;
-            STR = buffer->str;
+            TYPE     = TYPE_OP;
+            STR      = buffer->str;
 
             buffer->str += OPERATORS[i].len;
             (*ofs)++;
@@ -195,13 +215,14 @@ void GetName(Token* tokens, size_t* ofs, Buffer* buffer)
     int len = 0;
 
     VALUE.name = (char*)calloc(MAX_NAME_LEN, sizeof(char));
-    sscanf(buffer->str, "%[A-Za-z0-9_]%n", VALUE.name, &len);
+    sscanf(buffer->str, "%[A-Za-z_]%n", VALUE.name, &len);
 
     TYPE = TYPE_ID;
     STR = buffer->str;
     buffer->str += len;
 
     (*ofs)++;
+    // printf("%s\n", buffer->str);
 }
 
 void GetTokens(Token* tokens, size_t* ofs, Buffer* buffer)
@@ -215,7 +236,7 @@ void GetTokens(Token* tokens, size_t* ofs, Buffer* buffer)
 
         if (isdigit(SYMBOL))
         {
-            GetNumber(tokens, ofs, buffer);
+            printf("I HATE DIGITS!!!!\n");
         }
         else
         {

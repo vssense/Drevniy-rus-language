@@ -55,7 +55,8 @@ struct Tree
     Node* root;
 };
 
-Tree* GetTree    (Parser* parser);
-void  TreeDump   (Tree* tree);
-void  WriteToFile(Tree* tree, const char* output);
-Tree* GetFromFile(const char* file);
+Tree*       GetTree     (Parser* parser);
+void        TreeDump    (Tree* tree);
+void        WriteToFile (Tree* tree, const char* output);
+Tree*       GetFromFile (const char* file);
+const char* MathToString(int op);

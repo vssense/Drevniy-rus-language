@@ -1,6 +1,8 @@
 #include "..//tree//tree.h"
 
-static const char* ASM_FILE_NAME = "asm_tmp.txt";
+static const char* SCAN  = "nepravdoi";
+static const char* PRINT = "govoru";
+static const char* SQRT  = "koren";
 
 struct Function
 {
@@ -17,6 +19,16 @@ struct NameTable
     Function* functions;
 
     size_t num_func;
+};
+
+struct Compilier
+{
+    NameTable* table;
+    Function* function;
+
+    FILE* file;
+
+    size_t label;
 };
 
 NameTable* MakeTableOfNames(Tree* tree);

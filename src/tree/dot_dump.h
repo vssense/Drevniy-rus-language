@@ -163,6 +163,99 @@ void PrintNodes(Tree* tree, Node* node, FILE* dump_file)
     }
 
 
+    // switch (node->type)
+    // {
+    //     case D_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#EBF7F7\", label=\"D_TYPE | %s\"]",
+    //             node, "fict");
+    //         break;
+    //     }
+    //     case DECL_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#C0F5F1\", label=\"DECL_TYPE | %s\"]",
+    //             node, "=");
+    //         break;
+    //     }
+    //     case ID_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#C0F5F1\", label=\"ID_TYPE | %s\"]",
+    //             node, node->value.name);
+    //         break;
+    //     }
+    //     case ARG_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#F0F5F1\", label=\"ARG_TYPE | %s\"]",
+    //             node, "arg");
+    //         break;
+    //     }
+    //     case COMP_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#C0F5F1\", label=\"COMP_TYPE | %s\"]",
+    //             node, "comp");
+    //         break;
+    //     }
+    //     case STAT_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#A2F39D\", label=\"STAT_TYPE | %s\"]",
+    //             node, "S");
+    //         break;
+    //     }
+    //     case COND_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#F3DF9D\", label=\"COND_TYPE | %s\"]",
+    //             node, "if");
+    //         break;
+    //     }
+    //     case IFEL_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#F3DF9D\", label=\"IFEL_TYPE | %s\"]",
+    //             node, "if-else");
+    //         break;
+    //     }
+    //     case LOOP_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#AEDEE8\", label=\"LOOP_TYPE | %s\"]",
+    //             node, "while");
+    //         break;
+    //     }
+    //     case ASSG_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#C0F5F1\", label=\"ASSG_TYPE | %s\"]",
+    //             node, "=");
+    //         break;
+    //     }
+    //     case CALL_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#AEE8C5\", label=\"CALL_TYPE | %s\"]",
+    //             node, "call");
+    //         break;
+    //     }
+    //     case JUMP_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#BC8ED7\", label=\"JUMP_TYPE | %s\"]",
+    //             node, "return");
+    //         break;
+    //     }
+    //     case MATH_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#C0F5F1\", label=\"MATH_TYPE | %s\"]",
+    //             node, MathToString(node->value.op));
+    //         break;
+    //     }
+    //     case NUMB_TYPE :
+    //     {
+    //         fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#C0F5F1\", label=\"NUMB_TYPE | %lg\"]",
+    //             node, node->value.number);
+    //         break;
+    //     }
+    //     default : 
+    //     {
+    //         printf("Unknown type = %d\n", node->type);
+    //         break;
+    //     }
+    // }
+
     // if (node->type == ID_TYPE || node->type == DECL_TYPE)
     // {
     //     fprintf(dump_file, "\"%p\"[style=\"filled\", fillcolor=\"#C0F5F1\", label=\"%d | %s\"]",
