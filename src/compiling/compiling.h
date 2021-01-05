@@ -3,6 +3,7 @@
 static const char* SCAN  = "nepravdoi";
 static const char* PRINT = "govoru";
 static const char* SQRT  = "koren";
+static const char* FLOOR = "okrugli";
 
 struct Function
 {
@@ -34,3 +35,5 @@ struct Compilier
 NameTable* MakeTableOfNames(Tree* tree);
 void       DumpNameTable   (NameTable* table);
 void       Assemble        (Tree* tree);
+void       Translate       (const char* file);
+void       Compile         (const char* input);

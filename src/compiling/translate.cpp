@@ -23,8 +23,12 @@ void Translate(const char* file)
 
     Tree* tree = GetFromFile(file);
 
-    FILE* translate = fopen("translated.txt", "w");
+    FILE* translate = fopen("translated_program.txt", "w");
     assert(translate);
+
+    fprintf(translate, "~ THIS FILE WAS GENERATED AUTOMATICLY\n"
+                       "~ TREE TAKED FROM FILE '%s'          \n"
+                       "~ CHECK FILE BEFORE COMPILING      \n\n", file);
 
     TranslateTree(tree, translate);
 }
@@ -191,6 +195,14 @@ bool TranslateStdCall(Node* node, FILE* file)
         return true;
     }
 
+    if (strcmp(node->left->value.name, "floor") == 0)
+    {
+        fprintf(file, "%s(", FLOOR);
+        TranslateParams(node->right, file);
+        fprintf(file, ");\n");
+        return true;
+    }
+
     return false;
 }
 
@@ -258,14 +270,17 @@ void TranslateExpression(Node* node, FILE* file)
         }
         case NUMB_TYPE :
         {   
-	        DoubleToDrevniyRus(file, node->value.number);	
+            DoubleToDrevniyRus(file, node->value.number);   
             break;
         }
         case CALL_TYPE :
         {
-            fprintf(file, "%s(", node->left->value.name);
-            TranslateParams(node->right, file);
-            fprintf(file, ")");
+            if (!TranslateStdCall(node, file))
+            {
+                fprintf(file, "%s(", node->left->value.name);
+                TranslateParams(node->right, file);
+                fprintf(file, ")");
+            }
             break;
         }
         case ID_TYPE :

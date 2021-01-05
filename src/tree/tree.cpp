@@ -28,12 +28,14 @@ void  CheckAssigment      (Parser* parser, size_t* ofs);
 bool  IsComparison        (Parser* parser, size_t* ofs);
 int   MathTokenToNode     (int op);
 
-Tree* NewTree      ();
-Node* NewNode      ();
-Node* ConstructNode(NodeType type, Value value, Node* left, Node* right);
-Node* ConstructNode(NodeType type, Node* left, Node* right);
-Node* ConstructNode(NodeType type, Value value);
-Node* ConstructNode(NodeType type);
+Tree* NewTree       ();
+Node* NewNode       ();
+Node* ConstructNode (NodeType type, Value value, Node* left, Node* right);
+Node* ConstructNode (NodeType type, Node* left, Node* right);
+Node* ConstructNode (NodeType type, Value value);
+Node* ConstructNode (NodeType type);
+void  DestuctSubtree(Node* node);
+
 
 ///////////////////////////////////////////////////////
 // Work with file
@@ -41,8 +43,6 @@ Node* ConstructNode(NodeType type);
 void WriteToFileRecursively(Node* node, FILE* file);
 void GetTreeFromBuffer     (Node* node, Buffer* buffer);
 void DeleteFictiveNodes    (Node* node);
-
-
 
 Tree* NewTree()
 {
@@ -108,7 +108,31 @@ Node* ConstructNode(NodeType type)
     return ConstructNode(type, { .op = 0 }, nullptr, nullptr);
 }
 
+void DestructTree(Tree* tree)
+{
+    assert(tree);
 
+    DestuctSubtree(tree->root);
+}
+
+void DeleteTree(Tree* tree)
+{
+    assert(tree);
+
+    free(tree);
+}
+
+void DestuctSubtree(Node* node)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+
+    DestuctSubtree(node->left);
+    DestuctSubtree(node->right);
+    free(node);
+}
 
 #define TYPE       parser->tokens[*ofs].type
 #define VALUE      parser->tokens[*ofs].value

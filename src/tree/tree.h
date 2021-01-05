@@ -60,3 +60,5 @@ void        TreeDump    (Tree* tree);
 void        WriteToFile (Tree* tree, const char* output);
 Tree*       GetFromFile (const char* file);
 const char* MathToString(int op);
+void        DestructTree(Tree* tree);
+void        DeleteTree  (Tree* tree);

@@ -1,25 +1,30 @@
 #include "compiling\\compiling.h"
 
-// #include "C:\Users\vssen\Desktop\TX\TXLib.h"
+const char* FILE_TO_WRITE = "tree_in_written_form.txt";
 
-const char* FILE_TO_WRITE = "tree.txt";
+void WriteTreeToFile(const char* file)
+{
+    assert(file);
 
-void Translate(const char* file);
+    Parser* parser = Parse(file);
+    Tree* tree = GetTree(parser);
+
+    WriteToFile(tree, FILE_TO_WRITE);
+
+    DestructTree(tree);
+    DeleteTree(tree);
+
+    DestructParser(parser);
+    DeleteParser(parser);
+}
 
 int main(const int argc, const char* argv[])
 {
-    Parser* parser = Parse(argv[1]);
-    // ParserDump(parser);
+    Compile(argv[1]);
 
-    Tree* tree = GetTree(parser);
-
-    // WriteToFile(tree, FILE_TO_WRITE);
+    // WriteTreeToFile(argv[1]);
 
     // Translate(argv[1]);
-        
-    // TreeDump(tree);
-    Assemble(tree);
-    // TreeDump(new_tree);
 
     return 0;
 }

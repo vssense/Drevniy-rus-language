@@ -149,3 +149,5 @@ void    ParserDump      (Parser* parser);
 void    CompilationError(Parser* parser, size_t* idx);
 Buffer* GetBuffer       (const char* input);
 void    IgnoreSpaces    (Buffer* buffer);
+void    DestructParser  (Parser* parser);
+void    DeleteParser    (Parser* parser);

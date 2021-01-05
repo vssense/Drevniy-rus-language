@@ -222,7 +222,6 @@ void GetName(Token* tokens, size_t* ofs, Buffer* buffer)
     buffer->str += len;
 
     (*ofs)++;
-    // printf("%s\n", buffer->str);
 }
 
 void GetTokens(Token* tokens, size_t* ofs, Buffer* buffer)
@@ -276,7 +275,6 @@ Parser* Parse(const char* input)
 
     size_t ofs = FillTokens(tokens, buffer);
 
-
     Parser* parser = (Parser*)calloc(1, sizeof(Parser));
 
     parser->tokens = tokens;
@@ -286,6 +284,23 @@ Parser* Parse(const char* input)
     Delete(buffer);
 
     return parser;
+}
+
+void DestructParser(Parser* parser)
+{
+    assert(parser);
+    assert(parser->original_buffer);
+    assert(parser->tokens);
+
+    free(parser->original_buffer);
+    free(parser->tokens);
+}
+
+void DeleteParser(Parser* parser)
+{
+    assert(parser);
+
+    free(parser);
 }
 
 void ParserDump(Parser* parser)

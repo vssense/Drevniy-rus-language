@@ -5,17 +5,19 @@ const char* ASM_FILE_NAME = "asm_tmp.txt";
 /////////////////////////////////////////////////////////////////
 //// NameTable
 /////////////////////////////////////////////////////////////////
-NameTable* MakeTableOfNames(Tree* tree);
-size_t     GetNumFunc      (Tree* tree);
-NameTable* NewNameTable    ();
-void       FillNameTable   (NameTable* table, Tree* tree);
-void       GetFunction     (Node* subtree, Function* function);
-size_t     GetNumArgs      (Node* node);
-size_t     GetNumVars      (Node* node);
-void       GetNames        (char** vars, Node* subtree);
-void       GetNewVars      (Node* node, char** vars, size_t* ofs);
-void       DumpNameTable   (NameTable* table);
-Function*  FindFunc        (const char* name, NameTable* table);
+NameTable* MakeTableOfNames (Tree* tree);
+size_t     GetNumFunc       (Tree* tree);
+NameTable* NewNameTable     ();
+void       FillNameTable    (NameTable* table, Tree* tree);
+void       GetFunction      (Node* subtree, Function* function);
+size_t     GetNumArgs       (Node* node);
+size_t     GetNumVars       (Node* node);
+void       GetNames         (char** vars, Node* subtree);
+void       GetNewVars       (Node* node, char** vars, size_t* ofs);
+void       DumpNameTable    (NameTable* table);
+Function*  FindFunc         (const char* name, NameTable* table);
+void       DestructNameTable(NameTable* table);
+void       DeleteNameTable  (NameTable* table);
 
 /////////////////////////////////////////////////////////////////
 ///// Assemble
@@ -44,6 +46,21 @@ size_t GetVarOfs                (Function* function, char* name);
 #define FUNC      compilier->function
 #define ASM_FILE  compilier->file
 #define LABEL     compilier->label
+
+void Compile(const char* input)
+{
+    assert(input);
+
+    Parser* parser = Parse(input);
+    Tree* tree = GetTree(parser);
+    Assemble(tree);
+
+    DestructTree(tree);
+    DeleteTree(tree);
+
+    DestructParser(parser);    
+    DeleteParser(parser);    
+}
 
 void Assemble(Tree* tree)
 {
@@ -83,6 +100,9 @@ void WriteAsmCode(Tree* tree, NameTable* table, FILE* file)
         compilier.function++;
         node = node->left;
     }
+
+    DestructNameTable(table);
+    DeleteNameTable(table);
 }
 
 void WriteAsmFunc(Node* node, Compilier* compilier)
@@ -377,6 +397,13 @@ bool WriteAsmStdCall(Node* node, Compilier* compilier)
         return true;
     }
 
+    if (strcmp(node->left->value.name, FLOOR) == 0)
+    {
+        WriteAsmExpression(node->right->left, compilier);
+        fprintf(ASM_FILE, "round\n");
+        return true;
+    }
+
     return false;
 }
 
@@ -476,6 +503,25 @@ NameTable* MakeTableOfNames(Tree* tree)
     FillNameTable(table, tree);
 
     return table;
+}
+
+void DestructNameTable(NameTable* table)
+{
+    assert(table);
+
+    for (size_t i = 0; i < table->num_func; ++i)
+    {
+        free(table->functions[i].vars);
+    }
+    
+    free(table->functions);
+}
+
+void DeleteNameTable(NameTable* table)
+{
+    assert(table);
+
+    free(table);
 }
 
 size_t GetNumFunc(Tree* tree)

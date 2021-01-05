@@ -1,7 +1,7 @@
 GPP = g++
 
-options = -Wall -Wextra
-
+options = -Wall -Wextra -w
+ 
 src = src
 bin = bin
 

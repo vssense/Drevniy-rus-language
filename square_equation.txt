@@ -4,7 +4,7 @@
 	возьмем b зомбируем nepravdoi();
 	возьмем c зомбируем nepravdoi();
 
-	Square(a, b, c);
+	Square(a, b, c);   
 	положим ноль;
 закончим
 
