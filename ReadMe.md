@@ -92,7 +92,7 @@
 >
 >#### Translating from another B05-032 language :
 >
->Call **translate** function with name a file, in which the [tree](1) is stored, you will get program
+>Call **translate** function with name a file, in which the [tree](https://github.com/vssense/DED-MY_LANGUAGE/tree_in_written_form.txt) is stored, you will get program
 >
 >on my language in translated_program.txt  ​ :sparkles:
 >
