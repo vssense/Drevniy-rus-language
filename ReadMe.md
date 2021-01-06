@@ -4,45 +4,45 @@
 
 >``` ruby
 >Abbreviation:
->	Gram | grammar
->	Prog | program
->	Defi | definition
->	FDec | function declaration
->	Comp | compound
->	Stat | statement
->	Expr | expression
->	Simp | simple expression
->    	Term | term
->    	Prim | primary grammar(factor)
->    	Call | function call
->    	Init | initialization
->    	Assg | assignment
->    	Jump | jump
->    	Cond | conditional statement
->    	Loop | loop
->    	Var  | variable	(char*)
->    	Num  | number(constant)
+>       Gram | grammar
+>       Prog | program
+>       Defi | definition
+>       FDec | function declaration
+>       Comp | compound
+>       Stat | statement
+>       Expr | expression
+>       Simp | simple expression
+>       Term | term
+>       Prim | primary grammar(factor)
+>       Call | function call
+>       Init | initialization
+>       Assg | assignment
+>       Jump | jump
+>       Cond | conditional statement
+>       Loop | loop
+>       Var  | variable (char*)
+>       Num  | number(constant)
 >    
 >    
 >    Rules:
->    	Gram ::= Prog 'EOF'
->    	Prog ::= {Defi}+
->    	Defi ::= FDec Comp
->    	FDec ::= 'возьмем' Var '(' ')' | Var '(' Var  { ',' Var }* ')'
->    	Comp ::= 'начнем' Stat* 'закончим'
->	Stat ::= [Expr, Init, Assg, Jump] ';' | Cond | Loop
->	Expr ::= Simp {['<', '>', '==', '!=', '<=', '>='] Simp}*
->	Simp ::= Term {['+', '-'] Term}*
->    	Term ::= Prim {['*', '/'] Prim}*
->    	Prim ::= '(' Expr ')' | Num | Var | Call
->    	Call ::= Var '(' ')' | Var '(' Expr { ',' Expr}* ')'
->    	Init ::= 'возьмем' Var 'зомбируем' Expr
->    	Assg ::= Var 'зомбируем' Expr
->    	Jump ::= 'положим' Expr
->    	Cond ::= 'в_случае' '(' Expr ')' Comp | 'в_случае' '(' Expr ')' Comp 'иначе' Comp
->    	Loop ::= 'зомбирование_идет' '(' Expr ')' Comp
->    	Var  ::= ['A' - 'Z', 'a' - 'z', '_'] ['A' - 'Z', 'a' - 'z', '0' - '9', '_']*
->    	Num  ::= 'ноль' - 'десятичок'
+>       Gram ::= Prog 'EOF'
+>       Prog ::= {Defi}+
+>       Defi ::= FDec Comp
+>       FDec ::= 'возьмем' Var '(' ')' | Var '(' Var  { ',' Var }* ')'
+>       Comp ::= 'начнем' Stat* 'закончим'
+>       Stat ::= [Expr, Init, Assg, Jump] ';' | Cond | Loop
+>       Expr ::= Simp {['<', '>', '==', '!=', '<=', '>='] Simp}*
+>       Simp ::= Term {['+', '-'] Term}*
+>       Term ::= Prim {['*', '/'] Prim}*
+>       Prim ::= '(' Expr ')' | Num | Var | Call
+>       Call ::= Var '(' ')' | Var '(' Expr { ',' Expr}* ')'
+>       Init ::= 'возьмем' Var 'зомбируем' Expr
+>       Assg ::= Var 'зомбируем' Expr
+>       Jump ::= 'положим' Expr
+>       Cond ::= 'в_случае' '(' Expr ')' Comp | 'в_случае' '(' Expr ')' Comp 'иначе' Comp
+>       Loop ::= 'зомбирование_идет' '(' Expr ')' Comp
+>       Var  ::= ['A' - 'Z', 'a' - 'z', '_'] ['A' - 'Z', 'a' - 'z', '0' - '9', '_']*
+>       Num  ::= 'ноль' - 'десятичок'
 >    ```
 
 ### Syntax :+1:
@@ -95,6 +95,15 @@
 >Call **translate** function with name a file, in which the [tree](1) is stored, you will get program
 >
 >on my language in translated_program.txt  ​ :sparkles:
+>
+>#### Some std functions :
+>
+>1. govoru(a) - prints a
+>2. a = nepravdoi() - takes a from stdin
+>3. a = sqrt(a) - takes square root
+>4. a = floor(a) - round to int
+
+
 
 
 
@@ -131,7 +140,7 @@
     закончим
     иначе
     начнем
-	положим a * Fact(a - целковый);
+    положим a * Fact(a - целковый);
     закончим
 закончим
 ```
@@ -141,47 +150,47 @@
 ```
 возьмем main()
 начнем
-	возьмем a зомбируем nepravdoi();
-	возьмем b зомбируем nepravdoi();
-	возьмем c зомбируем nepravdoi();
+    возьмем a зомбируем nepravdoi();
+    возьмем b зомбируем nepravdoi();
+    возьмем c зомбируем nepravdoi();
 
-	Square(a, b, c);   
-	положим ноль;
+    Square(a, b, c);   
+    положим ноль;
 закончим
 
 возьмем Square(a, b, c)
 начнем
-	в_случае (a == ноль)
-	начнем
-		в_случае (b == ноль)
-		начнем
-			в_случае (c == ноль)
-			начнем
-				govoru(золотничок);
-			закончим
-			иначе
-			начнем
-				govoru(ноль);
-			закончим
-		закончим
-		иначе
-		начнем
-		        govoru((целковый - полушка) * c / b);
-		закончим
-	закончим
-	иначе
-	начнем
-	        возьмем ribnikov зомбируем koren(b * b - осьмушка * a * c);
-		в_случае (ribnikov == ноль)
-		начнем
-			govoru((целковый - полушка) * b / (полушка * a));
-		закончим
-		иначе
-		начнем
-			govoru(((целковый - полушка) * b + ribnikov) / (полушка * a));
-			govoru(((целковый - полушка) * b - ribnikov) / (полушка * a));
-		закончим
-	закончим
-	положим ноль;
+    в_случае (a == ноль)
+    начнем
+        в_случае (b == ноль)
+        начнем
+            в_случае (c == ноль)
+            начнем
+                govoru(золотничок);
+            закончим
+            иначе
+            начнем
+                govoru(ноль);
+            закончим
+        закончим
+        иначе
+        начнем
+                govoru((целковый - полушка) * c / b);
+        закончим
+    закончим
+    иначе
+    начнем
+            возьмем ribnikov зомбируем koren(b * b - осьмушка * a * c);
+        в_случае (ribnikov == ноль)
+        начнем
+            govoru((целковый - полушка) * b / (полушка * a));
+        закончим
+        иначе
+        начнем
+            govoru(((целковый - полушка) * b + ribnikov) / (полушка * a));
+            govoru(((целковый - полушка) * b - ribnikov) / (полушка * a));
+        закончим
+    закончим
+    положим ноль;
 закончим
 ```
