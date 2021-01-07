@@ -1,7 +1,7 @@
 #include "parser.h"
 
 enum NodeType
-{                 //                                     In sir gay's tree
+{
     D_TYPE,       // new func                         |   fict
     DECL_TYPE,    // variable declaration             |   var name
     ID_TYPE,      // variable or function             |   name of func or var    
